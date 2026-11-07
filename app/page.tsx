@@ -11,6 +11,7 @@ const projectImages = [
   "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=85",
 ];
 
+
 export default function Home() {
   const { messages } = useLanguage();
   const [activeFilter, setActiveFilter] = useState("ALL");
@@ -387,10 +388,10 @@ export default function Home() {
       <article className="team-card" key={index}>
 
         <div className="team-image">
-          <img
-            src={`/images/team/member-${index + 1}.jpg`}
-            alt={member.name}
-          />
+        <img
+  src={`/rivona-website/images/team/member-${index + 1}.jpg`}
+  alt={member.name}
+/>
         </div>
 
         <div className="team-info">
