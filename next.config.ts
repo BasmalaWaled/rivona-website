@@ -1,12 +1,23 @@
+
 import type { NextConfig } from "next";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: "export",
+
+  basePath: isProduction ? "/rivona-website" : "",
+
+  images: {
+    unoptimized: true,
+  },
+
+  trailingSlash: true,
+
   experimental: {
     agentFeedback: true,
   },
-  cacheComponents: true,
-  partialPrefetching: true,
+
   turbopack: {
     rules: {
       "*.css": {
@@ -18,3 +29,5 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+
