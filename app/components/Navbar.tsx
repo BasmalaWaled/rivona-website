@@ -18,11 +18,11 @@ export default function Navbar() {
   return (
     <header className="site-header">
       <Link href="/" className="brand">
-        <img
-          src="/images/logo.png"
-          alt="Rivona4 Media Logo"
-          className="brand-logo"
-        />
+    <img
+  src="/rivona-website/images/logo.png"
+  alt="Rivona4 Media Logo"
+  className="brand-logo"
+/>
 
         <span className="brand-name">RIVONA MEDIA</span>
       </Link>
