@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import { LanguageProvider } from "./components/LanguageContext";
+import MotionEffects from "./components/MotionEffects";
 
 export const metadata: Metadata = {
   title: "Rivona4 Media",
@@ -19,6 +20,7 @@ export default function RootLayout({
         <LanguageProvider>
           <Navbar />
           {children}
+          <MotionEffects />
         </LanguageProvider>
       </body>
     </html>

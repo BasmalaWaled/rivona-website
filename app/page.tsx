@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useLanguage } from "./components/LanguageContext";
+import { KineticText } from "./components/MotionEffects";
 
 const serviceIcons = ["✎", "▣", "⌁", "⌕", "▤", "↗", "◈"];
 const projectImages = [
@@ -11,17 +12,29 @@ const projectImages = [
   "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=85",
 ];
 
-
 export default function Home() {
   const { messages } = useLanguage();
   const [activeFilter, setActiveFilter] = useState("ALL");
-const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [isCategoryClosing, setIsCategoryClosing] = useState(false);
+  const categoryCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const filteredProjects =
     activeFilter === "ALL"
       ? messages.portfolio.items
           : messages.portfolio.items.filter(
           (project) => project.category === activeFilter,
         );
+
+  const closePortfolioCategory = () => {
+    if (categoryCloseTimer.current) clearTimeout(categoryCloseTimer.current);
+    setIsCategoryClosing(true);
+    categoryCloseTimer.current = setTimeout(() => {
+      setActiveCategory(null);
+      setIsCategoryClosing(false);
+      categoryCloseTimer.current = null;
+    }, 280);
+  };
+
   return (
     <main className="home-page">
 
@@ -34,9 +47,9 @@ const [activeCategory, setActiveCategory] = useState<string | null>(null);
           </div>
 
           <h1>
-            {messages.hero.headline}
+            <KineticText>{messages.hero.headline}</KineticText>
             <br />
-            <span>{messages.hero.headlineAccent}</span>
+            <span><KineticText>{messages.hero.headlineAccent}</KineticText></span>
           </h1>
 
           <p className="hero-description">
@@ -92,7 +105,7 @@ const [activeCategory, setActiveCategory] = useState<string | null>(null);
             </div>
 
             <h1 className="about-quote">
-              {messages.about.quote}
+              <KineticText>{messages.about.quote}</KineticText>
             </h1>
 
             <div className="founding-quote">
@@ -154,7 +167,7 @@ const [activeCategory, setActiveCategory] = useState<string | null>(null);
             <article className="philosophy-card mission-card">
               <div className="card-icon">⚑</div>
               <span className="card-label">{messages.about.purpose}</span>
-              <h2>{messages.about.mission}</h2>
+              <h2><KineticText>{messages.about.mission}</KineticText></h2>
 
               <blockquote>
                 {messages.about.missionQuote}
@@ -170,7 +183,7 @@ const [activeCategory, setActiveCategory] = useState<string | null>(null);
             <article className="philosophy-card values-card">
               <div className="card-icon">⚖</div>
               <span className="card-label">{messages.about.principles}</span>
-              <h2>{messages.about.valuesTitle}</h2>
+              <h2><KineticText>{messages.about.valuesTitle}</KineticText></h2>
 
               <div className="values-grid">
                 {messages.about.values.map((value) => (
@@ -189,7 +202,7 @@ const [activeCategory, setActiveCategory] = useState<string | null>(null);
             <article className="philosophy-card goals-card">
               <div className="card-icon">◎</div>
               <span className="card-label">{messages.about.direction}</span>
-              <h2>{messages.about.goalsTitle}</h2>
+              <h2><KineticText>{messages.about.goalsTitle}</KineticText></h2>
 
               <div className="goals-list">
                 {messages.about.goals.map((goal) => (
@@ -226,9 +239,9 @@ const [activeCategory, setActiveCategory] = useState<string | null>(null);
               </div>
 
               <h1>
-                {messages.services.headline}
+                <KineticText>{messages.services.headline}</KineticText>
                 <br />
-                <span>{messages.services.headlineAccent}</span>
+                <span><KineticText>{messages.services.headlineAccent}</KineticText></span>
               </h1>
 
             </div>
@@ -290,7 +303,7 @@ const [activeCategory, setActiveCategory] = useState<string | null>(null);
           <span className="portfolio-label-line"></span>
         </div>
 
-        <h1>{messages.portfolio.title}</h1>
+        <h1><KineticText>{messages.portfolio.title}</KineticText></h1>
       </div>
     </div>
 
@@ -326,11 +339,14 @@ const [activeCategory, setActiveCategory] = useState<string | null>(null);
 </div>
 
     ) : (
-      <div className="portfolio-category-content">
+      <div
+        className="portfolio-category-content"
+        data-closing={isCategoryClosing ? "true" : undefined}
+      >
 
         <button
           className="portfolio-back"
-          onClick={() => setActiveCategory(null)}
+          onClick={closePortfolioCategory}
         >
           ← Back to Categories
         </button>
@@ -387,9 +403,9 @@ const [activeCategory, setActiveCategory] = useState<string | null>(null);
       </div>
 
       <h1>
-        {messages.team.headline}
+        <KineticText>{messages.team.headline}</KineticText>
         <br />
-        <span>{messages.team.headlineAccent}</span>
+        <span><KineticText>{messages.team.headlineAccent}</KineticText></span>
       </h1>
     </div>
 
@@ -430,14 +446,14 @@ src={`${process.env.NODE_ENV === "production" ? "/rivona-website" : ""}/images/t
             <span>{messages.contact.sectionLabel}</span>
             <i></i>
           </div>
-          <h1>{messages.contact.title}</h1>
+          <h1><KineticText>{messages.contact.title}</KineticText></h1>
           <p>{messages.contact.description}</p>
         </div>
 
         <div className="contact-content">
           <div className="contact-detail">
             <span>{messages.contact.emailLabel}</span>
-            <a href="mailto:Rivona4media@gmail.com">RIVONA4MEDIA@GMAIL.COM</a>
+            <a href="mailto:Rivonamedia@gmail.com">RIVONA4MEDIA@GMAIL.COM</a>
           </div>
           <div className="contact-detail">
             <span>{messages.contact.phoneLabel}</span>
@@ -447,7 +463,7 @@ src={`${process.env.NODE_ENV === "production" ? "/rivona-website" : ""}/images/t
             <span>{messages.contact.locationLabel}</span>
             <p>{messages.contact.location}</p>
           </div>
-          <a href="mailto:Rivona4media@gmail.com" className="primary-button contact-button">
+          <a href="mailto:Rivonamedia@gmail.com" className="primary-button contact-button">
             {messages.contact.action} <span>↗</span>
           </a>
         </div>
