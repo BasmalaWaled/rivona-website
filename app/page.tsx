@@ -15,7 +15,7 @@ const projectImages = [
 export default function Home() {
   const { messages } = useLanguage();
   const [activeFilter, setActiveFilter] = useState("ALL");
-
+const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const filteredProjects =
     activeFilter === "ALL"
       ? messages.portfolio.items
@@ -116,7 +116,16 @@ export default function Home() {
           </div>
 
           <div className="about-visual-column">
-            <div className="about-image"></div>
+            <div className="about-image">
+  <img
+    src={`${
+      process.env.NODE_ENV === "production"
+        ? "/rivona-website"
+        : ""
+    }/images/about.jpg`}
+    alt="Rivona Media Creative Space"
+  />
+</div>
 
             <div className="image-caption">
               <span>{messages.about.creativeSpace}</span>
@@ -270,93 +279,102 @@ export default function Home() {
       </section>
 
 
-      {/* Portfolio Section */}
-      <section id="portfolio" className="portfolio-page">
-        <section className="portfolio-section">
+{/* Portfolio Section */}
+<section id="portfolio" className="portfolio-page">
+  <section className="portfolio-section">
 
-          {/* Portfolio Heading */}
-          <div className="portfolio-heading">
+    <div className="portfolio-heading">
+      <div className="portfolio-title">
+        <div className="portfolio-label">
+          <span>{messages.portfolio.sectionLabel}</span>
+          <span className="portfolio-label-line"></span>
+        </div>
 
-            <div className="portfolio-title">
-              <div className="portfolio-label">
-                <span>{messages.portfolio.sectionLabel}</span>
-                <span className="portfolio-label-line"></span>
-              </div>
+        <h1>{messages.portfolio.title}</h1>
+      </div>
+    </div>
 
-              <h1>{messages.portfolio.title}</h1>
-            </div>
+    {!activeCategory ? (
+     
+<div className="portfolio-categories">
 
-            {/* Filters */}
-            <div className="portfolio-filters">
-              {messages.portfolio.filters.map((filter) => (
-                <button
-                  key={filter.value}
-                  onClick={() => setActiveFilter(filter.value)}
-                  className={
-                    activeFilter === filter.value
-                      ? "portfolio-filter active"
-                      : "portfolio-filter"
-                  }
-                >
-                  {filter.label}
-                </button>
-              ))}
-            </div>
+  <button
+    className="portfolio-category"
+    onClick={() => setActiveCategory("food")}
+  >
+    <img src={`${process.env.NODE_ENV === "production" ? "/rivona-website" : ""}/images/food.jpg`} alt="Food" />
+    <span>FOOD</span>
+  </button>
 
-          </div>
+  <button
+    className="portfolio-category"
+    onClick={() => setActiveCategory("hr")}
+  >
+    <img src={`${process.env.NODE_ENV === "production" ? "/rivona-website" : ""}/images/Hr.jpg`} alt="HR & Recruitment" />
+    <span>HR & RECRUITMENT</span>
+  </button>
 
-          {/* Projects */}
-          <div className="portfolio-grid">
-            {filteredProjects.map((project) => (
-              <article className="portfolio-card" key={project.id}>
+  <button
+    className="portfolio-category"
+    onClick={() => setActiveCategory("perfumes")}
+  >
+    <img src={`${process.env.NODE_ENV === "production" ? "/rivona-website" : ""}/images/PERFUMES.jpg`} alt="Real Estate" />
+    <span>PERFUMES</span>
+  </button>
 
-                <div className="portfolio-image">
-                  <img
-                    src={projectImages[project.id - 1]}
-                    alt={project.title}
-                  />
+  
+</div>
 
-                  <span className="portfolio-image-label">
-                    {project.label}
-                  </span>
-                </div>
+    ) : (
+      <div className="portfolio-category-content">
 
-                <div className="portfolio-card-content">
+        <button
+          className="portfolio-back"
+          onClick={() => setActiveCategory(null)}
+        >
+          ← Back to Categories
+        </button>
 
-                  <div className="portfolio-project-meta">
-                    <span>{project.service}</span>
-                    <span className="meta-dot">•</span>
-                    <span>{project.year}</span>
-                  </div>
+<div className="portfolio-video-grid">
 
-                  <h2>{project.title}</h2>
+  {(activeCategory === "food"
+    ? ["video-2.mp4","video-6.mp4", "video-7.mp4", "video-8.mp4","video-9.mp4"]
+    : activeCategory === "hr"
+    ? [ "video-3.mp4", "video-5.mp4", "video-10.mp4"]
+    : activeCategory === "perfumes"
+    ? ["video-1.mp4", "video-4.mp4"]
+    : []
+  ).map((video) => (
+    <div className="portfolio-video-item" key={video}>
+      <video controls playsInline preload="metadata">
+        <source
+          src={`${
+            process.env.NODE_ENV === "production"
+              ? "/rivona-website"
+              : ""
+          }/videos/${video}`}
+          type="video/mp4"
+        />
+      </video>
+    </div>
+  ))}
 
-                  <p className="portfolio-description">
-                    {project.description}
-                  </p>
+</div>
 
-                  <div className="portfolio-card-footer">
-                    <span className="portfolio-result">
-                      {project.result}
-                    </span>
+{!["food", "hr", "perfumes"].includes(activeCategory ?? "") && (
+  <p className="portfolio-empty">
+    Videos coming soon.
+  </p>
+)}
+</div>
 
-                    <a href="#contact" className="view-case">
-                      {messages.portfolio.viewCase} <span>→</span>
-                    </a>
-                  </div>
+    )}
 
-                </div>
-              </article>
-            ))}
-          </div>
+  </section>
+</section>
 
-          {/* Empty State */}
-          {filteredProjects.length === 0 && (
-            <p className="portfolio-empty">{messages.portfolio.empty}</p>
-          )}
 
-        </section>
-      </section>
+
 {/* Our Team Section */}
 <section id="team" className="team-section">
 
@@ -384,12 +402,12 @@ export default function Home() {
   {/* Team Cards */}
   <div className="team-grid">
 
-    {messages.team.members.map((member, index) => (
+    {messages.team.members.slice(0, -1).map((member, index) => (
       <article className="team-card" key={index}>
 
         <div className="team-image">
         <img
-  src={`/rivona-website/images/team/member-${index + 1}.jpg`}
+src={`${process.env.NODE_ENV === "production" ? "/rivona-website" : ""}/images/team/member-${index + 1}.jpg`}
   alt={member.name}
 />
         </div>

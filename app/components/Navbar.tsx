@@ -19,7 +19,7 @@ export default function Navbar() {
     <header className="site-header">
       <Link href="/" className="brand">
     <img
-  src="/rivona-website/images/logo.png"
+  src={`${process.env.NODE_ENV === "production" ? "/rivona-website" : ""}/images/logo.png`}
   alt="Rivona4 Media Logo"
   className="brand-logo"
 />
@@ -55,10 +55,14 @@ export default function Navbar() {
           </button>
         </div>
 
-        <Link href="#contact" className="header-contact">
-          {messages.nav.getInTouch}
-        </Link>
-
+      <a
+  href="https://wa.me/201284099799"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="header-contact"
+>
+  {messages.nav.getInTouch}
+</a>
         <Link
           href="#contact"
           className="profile-icon"
