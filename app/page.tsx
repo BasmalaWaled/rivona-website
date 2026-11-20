@@ -3,8 +3,25 @@
 import { useRef, useState } from "react";
 import { useLanguage } from "./components/LanguageContext";
 import { KineticText } from "./components/MotionEffects";
+import {
+  Aperture,
+  Clapperboard,
+  Megaphone,
+  MessagesSquare,
+  PenTool,
+  Search,
+  Target,
+} from "lucide-react";
 
-const serviceIcons = ["✎", "▣", "⌁", "⌕", "▤", "↗", "◈"];
+const serviceIcons = [
+  PenTool,
+  Clapperboard,
+  Megaphone,
+  Search,
+  MessagesSquare,
+  Target,
+  Aperture,
+];
 const projectImages = [
   "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=85",
   "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=1200&q=85",
@@ -74,7 +91,6 @@ export default function Home() {
             <span className="detail-separator">·</span>
 
             <span className="location">
-              <span>♧</span>
               {messages.hero.location}
             </span>
           </div>
@@ -120,7 +136,6 @@ export default function Home() {
             </div>
 
             <div className="about-signature">
-              <div className="signature-icon">✳</div>
               <div>
                 <h3>RIVONA MEDIA</h3>
                 <span>{messages.about.signature}</span>
@@ -254,12 +269,19 @@ export default function Home() {
           {/* Services Cards */}
           <div className="services-grid">
 
-            {messages.services.items.map((service, index) => (
-              <article className="service-card" key={service.number}>
+            {messages.services.items.map((service, index) => {
+              const ServiceIcon = serviceIcons[index];
+              return (
+                <article className="service-card" key={service.number}>
 
                 <div className="card-top">
                   <div className="service-icon">
-                    {serviceIcons[index]}
+                    <ServiceIcon
+                      size={25}
+                      strokeWidth={1.7}
+                      color="#C6A45C"
+                      aria-hidden="true"
+                    />
                   </div>
 
                   <span className="service-category">
@@ -284,8 +306,9 @@ export default function Home() {
                   <span className="arrow">→</span>
                 </a>
 
-              </article>
-            ))}
+                </article>
+              );
+            })}
 
           </div>
         </section>

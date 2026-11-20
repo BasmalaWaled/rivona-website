@@ -63,13 +63,6 @@ export default function Navbar() {
 >
   {messages.nav.getInTouch}
 </a>
-        <Link
-          href="#contact"
-          className="profile-icon"
-          aria-label={messages.nav.contactUs}
-        >
-          ♙
-        </Link>
       </div>
     </header>
   );
